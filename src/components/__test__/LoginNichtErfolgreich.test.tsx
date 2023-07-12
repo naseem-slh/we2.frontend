@@ -1,7 +1,8 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { withErrorBoundary } from 'react-error-boundary';
 import { MemoryRouter } from 'react-router-dom';
-import App from '../App';
+import { setTimeout } from 'timers/promises';
+import App from '../../App';
 import mockFetch from './mockFetch';
 
 
@@ -10,7 +11,8 @@ const AppWithErrorBoundary = withErrorBoundary(App, {
     fallback: <div />
   });
   
-test('Login-Dialog schließt sich bei erfolgreichem Login', async () => {
+
+test('Login-Dialog wird bei fehlgeschlagenen Login nicht geschlossen', async () => {
     mockFetch();
     const orgError = console.error;
     try {
@@ -49,12 +51,14 @@ test('Login-Dialog schließt sich bei erfolgreichem Login', async () => {
     const password = screen.getByLabelText(/Passwort/i);
     const ok = screen.getByText("OK");
     fireEvent.change(email, { target: { value: "john@some-host.de" } });
-    fireEvent.change(password, { target: { value: "12abcAB!" } });
+    fireEvent.change(password, { target: { value: "falschesPW" } });
     fireEvent.click(ok);
-
-    await waitFor(() => { // Login-Dialog sollte jetzt geschlossen sein
-        const emailFields = screen.queryAllByLabelText(/E-Mail/i);
-        expect(emailFields.length).toBe(0);
-    });
+    
+    await setTimeout(500); // warten bis Login-Request abgeschlossen ist
+    
+    // Login-Dialog sollte noch sichtbar sein
+    screen.getByLabelText(/E-Mail/i);
+    screen.getByLabelText(/Passwort/i);
+    screen.getByText("OK");
 
 });

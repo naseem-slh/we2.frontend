@@ -1,4 +1,4 @@
-import { ShopItemResource, ShopperResource } from "../Resources";
+import { ShopItemResource, ShopperResource } from "../../Resources";
 
 export const shopper: ShopperResource = {
     shopLists: [
