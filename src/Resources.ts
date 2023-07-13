@@ -40,3 +40,14 @@ export type ShopItemResource = {
 export type ShopListItemsResource = {
     shopItems: ShopItemResource[]
 }
+
+export type LoginResource = {
+    /**
+     * Das JWT
+     */
+    "access_token": string
+    /**
+     * Konstante "Bearer"
+     */
+    "token_type": "Bearer"
+}
