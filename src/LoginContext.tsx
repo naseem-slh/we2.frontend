@@ -2,6 +2,8 @@ import React from "react";
 
 interface LoginInfo {
     userId: string;
+    role: "u" | "a"
+
 }
 
 interface LoginContextType {
