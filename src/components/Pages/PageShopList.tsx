@@ -8,12 +8,15 @@ import ListCardComp from "../bootstrapComp/ListCardComp";
 import HeaderComp from "../bootstrapComp/HeaderComp";
 import ItemCardComp from "../bootstrapComp/ItemCardComp";
 import "../../PageCSS/PageShopList.css";
+import { useLoginContext } from "../../LoginContext";
 
 
 export default function PageShopList() {
     const [shopItems, setShopItems] = useState<ShopListItemsResource | null>()
     const [shopList, setShopList] = useState<ShopListResource | null>()
     const { showBoundary } = useErrorBoundary();
+    const { loginInfo } = useLoginContext();
+
     const params = useParams()
 
     async function load() {
@@ -28,7 +31,7 @@ export default function PageShopList() {
             showBoundary(err);
         }
     }
-    useEffect(() => { load() }, [])
+    useEffect(() => { load() }, [loginInfo])
 
     if (!shopItems || !shopList) {
         return <LoadingIndicator />

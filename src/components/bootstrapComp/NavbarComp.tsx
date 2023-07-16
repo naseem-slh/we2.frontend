@@ -1,13 +1,21 @@
 import { Fragment, useState } from 'react';
-import { Navbar, Nav, Container, Button } from 'react-bootstrap';
+import { Navbar, Nav, Container, Button, Form } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import LoginDialog from './LoginDialog';
+import { useLoginContext } from '../../LoginContext';
+import { removeJWT } from '../../JWTManager';
 
 export default function NavbarComp() {
   const [showDialog, setShowDialog] = useState(false);
-
+  const { loginInfo, setLoginInfo } = useLoginContext();
   const handleCloseDialog = () => setShowDialog(false);
   const handleShowDialog = () => setShowDialog(true);
+
+  const doLogout = (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoginInfo(null);
+    removeJWT();
+  }
 
   return (
     <Fragment>
@@ -23,16 +31,38 @@ export default function NavbarComp() {
               style={{ maxHeight: '100px' }}
               navbarScroll
             >
-              <LinkContainer to="/admin">
-                <Nav.Link>Admin</Nav.Link>
+              <LinkContainer to="/shopper">
+                <Nav.Link>Shopper</Nav.Link>
               </LinkContainer>
-              <Button
-                variant="link"
-                className="nav-link"
-                onClick={handleShowDialog}
-              >
-                Login
-              </Button>
+              {loginInfo ? (
+                <>
+                  <LinkContainer to="/prefs">
+                    <Nav.Link>Prefs</Nav.Link>
+                  </LinkContainer>
+                  <Form onSubmit={doLogout}>
+                    <Button
+                      variant="link"
+                      className="nav-link"
+                      type="submit"
+                    >
+                      Logout
+                    </Button>
+                  </Form>
+                </>
+              ) : (
+                <>
+                  <LinkContainer to="/admin">
+                    <Nav.Link>Admin</Nav.Link>
+                  </LinkContainer>
+                  <Button
+                    variant="link"
+                    className="nav-link"
+                    onClick={handleShowDialog}
+                  >
+                    Login
+                  </Button>
+                </>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>

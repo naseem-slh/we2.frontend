@@ -6,11 +6,13 @@ import { getShopper } from "../../backend/shopperapi";
 import ListCardComp from "../bootstrapComp/ListCardComp";
 import "../../PageCSS/PageShopper.css";
 import HeaderComp from "../bootstrapComp/HeaderComp";
+import { useLoginContext } from "../../LoginContext";
 
 export default function PageShopper() {
   const [shopper, setShopper] = useState<ShopperResource | null>(null);
   const { showBoundary } = useErrorBoundary();
-
+  const { loginInfo } = useLoginContext();
+  
   async function load() {
     try {
       const shopperData: ShopperResource = await getShopper();
@@ -22,7 +24,7 @@ export default function PageShopper() {
 
   useEffect(() => {
     load();
-  }, []);
+  }, [loginInfo]);
 
   if (!shopper) {
     return <LoadingIndicator />;

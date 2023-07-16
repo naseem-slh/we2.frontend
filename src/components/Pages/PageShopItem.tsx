@@ -6,10 +6,12 @@ import { useEffect, useState } from "react";
 import LoadingIndicator from "../LoadingIndicator";
 import ItemCardComp from "../bootstrapComp/ItemCardComp";
 import HeaderComp from "../bootstrapComp/HeaderComp";
+import { useLoginContext } from "../../LoginContext";
 
 export default function PageShopItem() {
     const [shopItem, setShopItem] = useState<ShopItemResource | null>()
     const { showBoundary } = useErrorBoundary();
+    const { loginInfo } = useLoginContext();
     const params = useParams()
 
     async function load() {
@@ -22,7 +24,7 @@ export default function PageShopItem() {
             showBoundary(err);
         }
     }
-    useEffect(() => { load() }, [])
+    useEffect(() => { load() }, [loginInfo])
 
     if (!shopItem) {
         return <LoadingIndicator />

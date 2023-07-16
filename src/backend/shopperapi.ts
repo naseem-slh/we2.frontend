@@ -1,4 +1,4 @@
-import { retrieveJWT } from "../JWTManager";
+import { removeJWT, retrieveJWT } from "../JWTManager";
 import { LoginResource, ShopItemResource, ShopListItemsResource, ShopListResource, ShopperResource } from "../Resources";
 import { fetchWithErrorHandling } from "./validation";
 
@@ -44,13 +44,13 @@ export async function getShopItem(shopItemId: string): Promise<ShopItemResource>
 }
 
 
-export async function login(userid: string, password: string): Promise<string> {
+export async function login(email: string, password: string): Promise<string> {
     const url = `${HOST}/api/login`;
     try {
         const response = await fetch(url, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ userid, password })
+            body: JSON.stringify({ email, password })
         });
         if (response.ok) {
             const loginResource: LoginResource = await response.json();
