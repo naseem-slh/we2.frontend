@@ -36,6 +36,11 @@ export default function NavbarComp() {
               </LinkContainer>
               {loginInfo ? (
                 <>
+                  {loginInfo.role === "a" && (
+                    <LinkContainer to="/admin">
+                      <Nav.Link>Admin</Nav.Link>
+                    </LinkContainer>
+                  )}
                   <LinkContainer to="/prefs">
                     <Nav.Link>Prefs</Nav.Link>
                   </LinkContainer>
@@ -51,9 +56,6 @@ export default function NavbarComp() {
                 </>
               ) : (
                 <>
-                  <LinkContainer to="/admin">
-                    <Nav.Link>Admin</Nav.Link>
-                  </LinkContainer>
                   <Button
                     variant="link"
                     className="nav-link"

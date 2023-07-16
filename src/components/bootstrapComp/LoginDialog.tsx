@@ -13,7 +13,7 @@ export default function LoginDialog({ show, handleClose }: Props) {
 
   const { loginInfo, setLoginInfo } = useLoginContext();
 
-  const [email, setEMail] = useState("john@some-host.de")
+  const [email, setEMail] = useState("")
   const [password, setPassword] = useState("")
   const [msg, setMsg] = useState("")
 
